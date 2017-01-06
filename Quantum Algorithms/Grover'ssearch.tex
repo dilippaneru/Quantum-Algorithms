@@ -1,0 +1,45 @@
+\documentclass[a4,12pt]{article}
+\begin{document}
+\author{Dilip Paneru}
+\date{}
+\title{Grover's search}
+\maketitle
+Although Grover's search algorithm doesn't offer the spectacular exponential speed-up of Shor's factoring algorithm,it does offer a polynomial speed-up over classical search algorithms.For searching among N items it takes $O(\sqrt{N})$ steps to find the solution.The search algorithm is formulated in the form of finding x from the list of N items such that $\ f(x)=1$. The steps of Grover's search algorithm can be explained as follows:
+\begin{enumerate}
+\item First of all we start by preparing our qubits in the initial superposition of $\ \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1}|x\rangle$   by applying Hadamard transform to the state  $\ |0\rangle $
+\item Then we apply the Quantum oracle such that we obtain the state $\ \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1}(-1)^{f(x)}|x\rangle$.This can be done by applying the controlled not gate to $|-\rangle$ state controlled on the value of $\ f(x)$, such that $(-1)^{f(x)}|x\rangle|-\rangle$ is obtained from the state $|x\rangle|-\rangle$. This process is also called phase inversion because the phase of the solution states are inverted.
+\item Next step is amplifying the probability amplitudes of the solution states. This can be done by reflecting the amplitudes about their mean such that $ \alpha_x$ gets transformed into $ 2\frac{\sum_{x}\alpha_x}{N} - \alpha_x $ . This corresponds to act of reflecting the states about the state
+$ |u\rangle = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1}|x\rangle$. This can be seen as follows:
+\\ After reflection, the state obtained is $\langle\psi|u\rangle-(|\psi\rangle - \langle\psi|u\rangle|u\rangle)$ as the component parallel to $|u\rangle$ is kept same and the components orthogonal to it are inverted in phase.After simplifying we obtain $   \sum_{x=0}^{N-1}(2\frac{\sum_{x}\alpha_x}{N}-\alpha_x)|x\rangle$ 
+The overall operation is $2|u\rangle \langle u|-I$
+This process is carried out in three further steps:
+\begin{enumerate}
+	\item Transforming $|u\rangle$ into $|0\rangle$ by applying $H^{\otimes n}$
+	\item Reflecting $|\psi\rangle$ about $|0\rangle$ by applying $2|0\rangle \langle 0|-I$
+	\item Transforming $|0\rangle$ back into $|u\rangle$by applying $H^{\otimes n}$	
+\end{enumerate}
+\item Geometrically,in the space spanned by the normalized superposition of solution states $|v\rangle$ and the normalized superposition of non-solution states $|w\rangle$,the initial state can be written as $ |\psi\rangle = \cos({\frac{\theta}{2}})|w\rangle + \sin({\frac{\theta}{2}})|v\rangle$,where there are M solutions then 
+$\cos({\frac{\theta}{2}}) = \sqrt{\frac{M-N}{N}}$ and $\sin({\frac{\theta}{2}}) = \sqrt{\frac{M}{N}}$. The phase inversion is reflects the state about $|w\rangle$ and the operation $2|u\rangle \langle u|-I$ is reflects the state about $|u\rangle$. The net result is the rotation of the state towards $|w\rangle$ by angle $\theta$. 
+\item The iterations need to be performed $O(\sqrt{\frac{N}{M}})$ times to obtain a solution state under measurement with high probability.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+	
+	\bibitem{} 
+	Umesh vazirani: Grover's Search Algorithm.
+	\\\texttt{https://d37djvu3ytnwxt.cloudfront.net/assets/courseware/v1/faff66d79487fc4deee6246aa50cffef/c4x/BerkeleyX/CS-191x/asset/chap7.pdf}
+	
+	\bibitem{} 
+	Michael A. Nielsen and Isaac L. Chuang. 
+	\textit{Quantum Computation and Quantum Information}. 
+	Cambridge University Press,New York,2010.
+	
+	\bibitem{} 
+	Philip Kaye, Raymond Laflamme and Michele Mosca. 
+	\textit{An Introduction to Quantum Computing}. 
+	Oxford University Press,New York,2007.
+	
+\end{thebibliography}
+
+
+\end{document}
